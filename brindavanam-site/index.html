@@ -364,7 +364,7 @@ footer .tag{font-family:var(--label);text-transform:uppercase;letter-spacing:.3e
       <div class="li"><b>Write</b><span>srisureconsultants@gmail.com</span></div>
       <p class="note">We answer every enquiry personally.</p>
     </div>
-    <!-- <div class="form reveal" style="--d:120ms">
+    <div class="form reveal" style="--d:120ms">
       <div class="g2">
         <div class="fld"><label>Your name</label><input id="f-name" placeholder="Your name"></div>
         <div class="fld"><label>Phone</label><input id="f-phone" placeholder="(000) 000-0000"></div>
@@ -376,8 +376,8 @@ footer .tag{font-family:var(--label);text-transform:uppercase;letter-spacing:.3e
       <div class="fld"><label>The occasion</label><input id="f-type" placeholder="Wedding, milestone, reunion, ceremony…"></div>
       <div class="fld"><label>About your celebration</label><textarea id="f-msg" placeholder="The guests, the events, what matters most…"></textarea></div>
       <button type="button" class="btn" id="send">Request a private visit</button>
-    </div> -->
-   <form class="form reveal" style="--d:120ms" id="visit-form">
+    </div>
+   <!-- <form class="form reveal" style="--d:120ms" id="visit-form">
 
   <div class="g2">
     <div class="fld"><label>Your name <span class="req">*</span></label><input id="f-name" placeholder="Your name" required></div>
@@ -408,7 +408,7 @@ footer .tag{font-family:var(--label);text-transform:uppercase;letter-spacing:.3e
   <span class="spinner" id="spinner"></span>
 </button>
 
-</form>
+</form> -->
   </div>
 </div></section>
 
@@ -466,7 +466,7 @@ btn.addEventListener('click', function () {
         message: document.getElementById("f-msg").value
     };
 
-    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", params)
+    emailjs.send("brindavan_email_service", "template_cn9b3qy", params)
         .then(() => {
 
             toast.textContent = "Request sent successfully — we'll be in touch soon.";
