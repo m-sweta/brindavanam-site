@@ -372,9 +372,11 @@ footer .tag{font-family:var(--label);text-transform:uppercase;letter-spacing:.3e
 
   <div class="fld"><label>About your celebration <span class="req">*</span></label><textarea id="f-msg" placeholder="The guests, the events, what matters most…" required></textarea></div>
 
-  <button type="button" class="btn" id="send">
-    Request a private visit
-  </button>
+<button type="button" class="btn loading-btn" id="send">
+  <span class="btn-text">Request a private visit</span>
+
+  <span class="spinner" id="spinner"></span>
+</button>
 
 </form>
   </div>
