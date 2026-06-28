@@ -379,56 +379,6 @@ document.getElementById('lb-x').onclick=closeLB;document.getElementById('lb-prev
 lb.addEventListener('click',e=>{if(e.target===lb)closeLB();});
 addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')closeLB();if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
 const toast=document.getElementById('toast');
-// document.getElementById('send').addEventListener('click',()=>{['f-name','f-phone','f-email','f-date','f-type','f-msg'].forEach(id=>document.getElementById(id).value='');toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),3400);});
-const toast = document.getElementById('toast');
-
-document.getElementById('send').addEventListener('click', () => {
-
-  const name = document.getElementById('f-name').value;
-  const phone = document.getElementById('f-phone').value;
-  const email = document.getElementById('f-email').value;
-  const dateText = document.getElementById('f-date').value;
-  const type = document.getElementById('f-type').value;
-  const msg = document.getElementById('f-msg').value;
-
-  // Create event details
-  const title = encodeURIComponent("Brindavanam Private Visit - " + name);
-
-  const details = encodeURIComponent(
-    `Name: ${name}
-Phone: ${phone}
-Email: ${email}
-Type: ${type}
-
-Message:
-${msg}`
-  );
-
-  // default time (since user gives "month/season", not exact datetime)
-  const start = new Date();
-  const end = new Date();
-  end.setHours(end.getHours() + 1);
-
-  const formatDate = (d) => d.toISOString().replace(/[-:]|\.\d{3}/g, "");
-
-  const calendarUrl =
-    `https://www.google.com/calendar/render?action=TEMPLATE` +
-    `&text=${title}` +
-    `&details=${details}` +
-    `&dates=${formatDate(start)}/${formatDate(end)}`;
-
-  // open Google Calendar event creation
-  window.open(calendarUrl, "_blank");
-
-  // clear form
-  ['f-name','f-phone','f-email','f-date','f-type','f-msg']
-    .forEach(id => document.getElementById(id).value = '');
-
-  // toast
-  toast.textContent = "Opening Google Calendar to schedule your visit...";
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 3500);
-
-});
+document.getElementById('send').addEventListener('click',()=>{['f-name','f-phone','f-email','f-date','f-type','f-msg'].forEach(id=>document.getElementById(id).value='');toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),3400);});
 </script>
 </body></html>
