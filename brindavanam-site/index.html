@@ -337,7 +337,7 @@ footer .tag{font-family:var(--label);text-transform:uppercase;letter-spacing:.3e
       </div>
       <div class="fld"><label>The occasion</label><input id="f-type" placeholder="Wedding, milestone, reunion, ceremony…"></div>
       <div class="fld"><label>About your celebration</label><textarea id="f-msg" placeholder="The guests, the events, what matters most…"></textarea></div>
-      <button class="btn" id="send">Request a private visit</button>
+      <button type="button" class="btn" id="send">Request a private visit</button>
     </div>
   </div>
 </div></section>
@@ -379,6 +379,52 @@ document.getElementById('lb-x').onclick=closeLB;document.getElementById('lb-prev
 lb.addEventListener('click',e=>{if(e.target===lb)closeLB();});
 addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')closeLB();if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
 const toast=document.getElementById('toast');
-document.getElementById('send').addEventListener('click',()=>{['f-name','f-phone','f-email','f-date','f-type','f-msg'].forEach(id=>document.getElementById(id).value='');toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),3400);});
+// document.getElementById('send').addEventListener('click',()=>{['f-name','f-phone','f-email','f-date','f-type','f-msg'].forEach(id=>document.getElementById(id).value='');toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),3400);});
+ document.getElementById('send').addEventListener('click', function () {
+
+    const params = {
+        name: document.getElementById("f-name").value,
+        phone: document.getElementById("f-phone").value,
+        email: document.getElementById("f-email").value,
+        date: document.getElementById("f-date").value,
+        type: document.getElementById("f-type").value,
+        message: document.getElementById("f-msg").value
+    };
+
+    emailjs.send(
+        "brindavan_email_service",
+        "template_cn9b3qy",
+        params
+    )
+    .then(function () {
+
+        toast.textContent = "Thank you — we'll be in touch to arrange your visit.";
+        toast.classList.add('show');
+
+        ['f-name','f-phone','f-email','f-date','f-type','f-msg']
+            .forEach(id => document.getElementById(id).value = '');
+
+        setTimeout(() => toast.classList.remove('show'), 3400);
+
+    })
+    .catch(function (error) {
+
+        console.error(error);
+
+        toast.textContent = "Unable to send your request. Please try again.";
+        toast.classList.add('show');
+
+        setTimeout(() => toast.classList.remove('show'), 3400);
+
+    });
+
+});
+</script>
+ <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+    emailjs.init({
+        publicKey: "brindavan_email_service"
+    });
 </script>
 </body></html>
