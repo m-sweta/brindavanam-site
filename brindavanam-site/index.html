@@ -150,6 +150,37 @@ nav.links a:hover{color:#fff} nav.links a:hover::after{width:100%}
 .form input:focus,.form textarea:focus{outline:0;border-color:var(--gold-deep)}
 .form textarea{resize:vertical;min-height:70px}
 .form .btn{width:100%;margin-top:.3rem;padding:14px;background:var(--maroon);border-color:var(--maroon);color:var(--gold-lt)}
+ /* ADD SPINNER CSS HERE */
+.loading-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(230,199,126,0.3);
+  border-top: 2px solid var(--gold);
+  border-radius: 50%;
+  display: none;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading .spinner {
+  display: inline-block;
+}
+
+.loading .btn-text {
+  opacity: 0.7;
+}
 .form .btn:hover{background:var(--wine);border-color:var(--wine)}
 .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--maroon);color:var(--gold-lt);padding:14px 26px;border-radius:2px;font-size:.9rem;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.45s;z-index:120;border:1px solid var(--gold)}
 .toast.show{opacity:1;transform:translateX(-50%)}
@@ -418,9 +449,14 @@ document.querySelectorAll('[data-full]').forEach(el=>el.addEventListener('click'
 document.getElementById('lb-x').onclick=closeLB;document.getElementById('lb-prev').onclick=()=>move(-1);document.getElementById('lb-next').onclick=()=>move(1);
 lb.addEventListener('click',e=>{if(e.target===lb)closeLB();});
 addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')closeLB();if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
-const toast=document.getElementById('toast');
-// document.getElementById('send').addEventListener('click',()=>{['f-name','f-phone','f-email','f-date','f-type','f-msg'].forEach(id=>document.getElementById(id).value='');toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),3400);});
- document.getElementById('send').addEventListener('click', function () {
+const toast = document.getElementById('toast');
+const btn = document.getElementById('send');
+
+btn.addEventListener('click', function () {
+
+    // start loading state
+    btn.classList.add("loading");
+    btn.disabled = true;
 
     const params = {
         name: document.getElementById("f-name").value,
@@ -431,32 +467,35 @@ const toast=document.getElementById('toast');
         message: document.getElementById("f-msg").value
     };
 
-    emailjs.send(
-        "brindavan_email_service",
-        "template_cn9b3qy",
-        params
-    )
-    .then(function () {
+    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", params)
+        .then(() => {
 
-        toast.textContent = "Thank you — we'll be in touch to arrange your visit.";
-        toast.classList.add('show');
+            toast.textContent = "Request sent successfully — we'll be in touch soon.";
+            toast.classList.add('show');
 
-        ['f-name','f-phone','f-email','f-date','f-type','f-msg']
-            .forEach(id => document.getElementById(id).value = '');
+            // clear form
+            document.getElementById("f-name").value = "";
+            document.getElementById("f-phone").value = "";
+            document.getElementById("f-email").value = "";
+            document.getElementById("f-date").value = "";
+            document.getElementById("f-type").value = "";
+            document.getElementById("f-msg").value = "";
 
-        setTimeout(() => toast.classList.remove('show'), 3400);
+        })
+        .catch((error) => {
+            console.error(error);
 
-    })
-    .catch(function (error) {
+            toast.textContent = "Failed to send. Please try again.";
+            toast.classList.add('show');
+        })
+        .finally(() => {
 
-        console.error(error);
+            // stop loading state
+            btn.classList.remove("loading");
+            btn.disabled = false;
 
-        toast.textContent = "Unable to send your request. Please try again.";
-        toast.classList.add('show');
-
-        setTimeout(() => toast.classList.remove('show'), 3400);
-
-    });
+            setTimeout(() => toast.classList.remove('show'), 3500);
+        });
 
 });
 </script>
